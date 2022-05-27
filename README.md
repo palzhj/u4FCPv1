@@ -182,6 +182,19 @@ The following figure shows the gigabyte transceiver connection on u4FCP.
 
 :warning: **Warning:** Other than RTM[19:16] (GTY131), every other GT Quad is in reverse order for PCIe connection (For instance, [3:0]=>[0:3]).
 
+### Clock Features
+
+Based on cross-point switches and programmable clock multipliers, the clock distribution for u4FCP offer a large selection of input clock sources (e.g. the LEMO connectors in the front/rear panel, the AMC clocks, the FMC clocks, or onboard oscillators). The clean clock is used as a reference clock for the gigabyte transceivers. This makes the u4FCP give users the possibility of implementing various high speed serial data protocols for custom applications.
+
+<figure>
+    <img src="/readme/clk_u4fcp.png"
+    	width="800"
+        alt="Clock Generation & Distribution">
+    <figcaption><em>Clock generation and distribution</em></figcaption>
+</figure>
+
+### Memory
+
 On-board memories are summarized below:
 
 1. Two up to 16G-Byte DDR4 SODIMM with 72-bit data bus
@@ -207,6 +220,19 @@ We design the RTM_M2 with four M.2 sockets to support NVMe SSD and use FPGA (Xil
         alt="GTX connection on RTM_M2">
     <figcaption><em>Connections for 16 GTX transceivers</em></figcaption>
 </figure>
+
+### Clock Features
+
+Whether you are using an internal or external clock, the signal must be cleaned to minimize jitter and ensure stable performance. RTM_M2 use dedicated chip ([Si5345](https://www.skyworksinc.com/en/Products/Timing/High-Performance-Jitter-Attenuators/Si5345B)) for jitter cleaning for NVMe SSD as reference clock.
+
+<figure>
+    <img src="/readme/clk_rtm_m2.png"
+    	width="800"
+        alt="Clock Generation & Distribution">
+    <figcaption><em>Clock generation and distribution</em></figcaption>
+</figure>
+
+### Memory
 
 On-board memories are summarized below:
 
