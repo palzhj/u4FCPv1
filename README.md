@@ -192,7 +192,7 @@ Based on cross-point switches and programmable clock multipliers, the clock dist
     <img src="/readme/clk_u4fcp.png"
     	width="800"
         alt="Clock Generation & Distribution">
-    <figcaption><em>Clock generation and distribution</em></figcaption>
+    <figcaption><em>Clock generation and distribution on u4FCP</em></figcaption>
 </figure>
 
 ### Memory
@@ -205,7 +205,7 @@ On-board memories are summarized below:
 
 ## RTM_M2
 
-We design the RTM_M2 with four M.2 sockets to support NVMe SSD and use FPGA (Xilinx Kintex-7) to extended low speed interface.
+We design the RTM_M2 with four M.2 sockets to support NVMe SSDs and use a FPGA (Xilinx Kintex-7) to extended the low speed interface.
 
 <figure>
     <img src="/readme/block_diagram_rtm_m2.png"
@@ -225,13 +225,13 @@ We design the RTM_M2 with four M.2 sockets to support NVMe SSD and use FPGA (Xil
 
 ### Clock Features
 
-Whether you are using an internal or external clock, the signal must be cleaned to minimize jitter and ensure stable performance. RTM_M2 use dedicated chip ([Si5345](https://www.skyworksinc.com/en/Products/Timing/High-Performance-Jitter-Attenuators/Si5345B)) for jitter cleaning for NVMe SSD as reference clock.
+Whether you are using an internal or external clock, the signal must be cleaned to minimize jitter and ensure stable performance. RTM_M2 uses dedicated chip ([Si5345](https://www.skyworksinc.com/en/Products/Timing/High-Performance-Jitter-Attenuators/Si5345B)) for jitter cleaning for NVMe SSDs as reference clocks.
 
 <figure>
     <img src="/readme/clk_rtm_m2.png"
     	width="600"
         alt="Clock Generation & Distribution">
-    <figcaption><em>Clock generation and distribution</em></figcaption>
+    <figcaption><em>Clock generation and distribution on RTM_M2</em></figcaption>
 </figure>
 
 ### Memory
