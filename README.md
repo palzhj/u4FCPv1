@@ -229,7 +229,7 @@ Whether you are using an internal or external clock, the signal must be cleaned 
 
 <figure>
     <img src="/readme/clk_rtm_m2.png"
-    	width="800"
+    	width="600"
         alt="Clock Generation & Distribution">
     <figcaption><em>Clock generation and distribution</em></figcaption>
 </figure>
@@ -241,4 +241,3 @@ On-board memories are summarized below:
 1. 512M x 64 bit DDR3L
 2. 2K-bit I2C Serial EEPROM with EUI-48™ Identity, providing a unique node Ethernet MAC address for mass-production process
 3. 256M-bit Quad SPI Flash for storing the FPGA firmware
-4. 
