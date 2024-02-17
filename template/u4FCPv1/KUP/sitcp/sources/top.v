@@ -541,7 +541,7 @@ SITCP #(
   .USE_CHIPSCOPE(DEBUG_SITCP & USE_CHIPSCOPE),
   .BASE_IP_ADDR (BASE_IP_ADDR),
   .PHY_ADDRESS  (PHY_ADDRESS),
-  .MAC_IP_WIDTH (0)
+  .MAC_IP_WIDTH (4)
 )sitcp(
   .RST          (rst),
   .USRCLK       (clk125_int),

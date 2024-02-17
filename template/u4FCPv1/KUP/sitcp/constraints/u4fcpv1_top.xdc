@@ -788,8 +788,8 @@ set_property PACKAGE_PIN H5 [get_ports "AMC_TX_N0"]
 # set_property PACKAGE_PIN J8 [get_ports "AMC_TX_P1"]
 set_property PACKAGE_PIN H6 [get_ports "AMC_TX_P0"]
 
-set_property PACKAGE_PIN U11 [get_ports "MGTCLK231_N0"]
-set_property PACKAGE_PIN U12 [get_ports "MGTCLK231_P0"]
+# set_property PACKAGE_PIN U11 [get_ports "MGTCLK231_N0"]
+# set_property PACKAGE_PIN U12 [get_ports "MGTCLK231_P0"]
 # set_property PACKAGE_PIN T9  [get_ports "MGTCLK231_N1"]
 # set_property PACKAGE_PIN T10 [get_ports "MGTCLK231_P1"]
 

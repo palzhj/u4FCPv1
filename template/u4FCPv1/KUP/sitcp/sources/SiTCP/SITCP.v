@@ -92,8 +92,6 @@ wire          gmii_tx_er;    // Transmit control signal from client MAC.
 wire  [7 : 0] gmii_rx_d;     // Received Data to client MAC.
 wire          gmii_rx_dv;    // Received control signal to client MAC.
 wire          gmii_rx_er;    // Received control signal to client MAC.
-wire          gmii_crs;
-wire          gmii_col;
 // Management: MDIO Interface
 wire          mdc_sys, mdio_i_sys, mdio_o_sys, mdio_i_sys_oe;
 //  SiTCP library
