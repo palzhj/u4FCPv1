@@ -460,7 +460,7 @@ module top #(
 );
 
 localparam DEBUG_SITCP    = 1;
-localparam DEBUG_RBCP_REG = 0;
+localparam DEBUG_RBCP_REG = 1;
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Clock
@@ -562,7 +562,7 @@ SITCP #(
   .TCP_ERROR    (tcp_error),
   .TCP_RST      (tcp_rst),
   .TCP_CLOSE    (tcp_close),
-  .TCP_RX_WC    (tcp_rx_wc[15:0]),
+  .TCP_RX_WC    (tcp_rx_wc),
   .TCP_RX_WR    (tcp_rx_wr),
   .TCP_RX_DATA  (tcp_rx_data),
   .TCP_TX_FULL  (tcp_tx_full),
@@ -585,24 +585,63 @@ SITCP #(
 );
 
 ////////////////////////////////////////////////////////////////////////////////
-//  TCP loopback FIFO
-wire sitcpFifoEmpty, sitcpFifoRe;
-assign tcp_rx_wc[15:11] = 5'b11111;
+//  TCP test
+wire [1 :0] tcp_mode;                   // 1: Loopback mode; 2: Test mode; Others: Normal mode
+wire [7 :0] tcp_test_tx_rate;           // Transmission data rate in units of 100 Mbps
+wire [63:0] tcp_test_num_of_data;       // Number of bytes of transmitted data
+wire        tcp_test_data_gen;          // Data transmission enable
+wire [2 :0] tcp_test_word_len;          // Word length of test data
+wire        tcp_test_select_seq;        // Sequence Data select
+wire [31:0] tcp_test_seq_pattern;       // sequence data (The default value is 0x60808040)
+wire [23:0] tcp_test_blk_size;          // Transmission block size in bytes
+wire        tcp_test_ins_error;         // Data error insertion
 
-sitcp_fifo sitcp_fifo(
-  .clk          (clk125_int),
-  .srst         (~tcp_open),
-  .data_count   (tcp_rx_wc[10:0]),
-  .full         (),
-  .wr_en        (tcp_rx_wr),
-  .din          (tcp_rx_data[7:0]),
-  .empty        (sitcpFifoEmpty),
-  .rd_en        (sitcpFifoRe),
-  .dout         (tcp_tx_data[7:0]),
-  .valid        (tcp_tx_wr)
+wire tcp_mode_loopback;
+assign tcp_mode_loopback = (tcp_mode == 2'b01)? 1'b1: 1'b0;
+
+wire tcp_mode_test;
+assign tcp_mode_test = (tcp_mode == 2'b10)? 1'b1: 1'b0;
+tcp_test tcp_test_i(
+  .CLK                (clk125_int),
+  .RST                (rst),
+  .TX_RATE            (tcp_test_tx_rate[3:0]),
+  .NUM_OF_DATA        (tcp_test_num_of_data),
+  .DATA_GEN           (tcp_test_data_gen),
+  .LOOPBACK           (tcp_mode_loopback),
+  .WORD_LEN           (tcp_test_word_len),
+  .SELECT_SEQ         (tcp_test_select_seq),
+  .SEQ_PATTERN        (tcp_test_seq_pattern),
+  .BLK_SIZE           (tcp_test_blk_size),
+  .INS_ERROR          (tcp_test_ins_error),
+  // TCP
+  .TCP_OPEN           (tcp_open),
+  .TCP_RX_WC          (tcp_rx_wc),
+  .TCP_RX_WR          (tcp_rx_wr),
+  .TCP_RX_DATA        (tcp_rx_data),
+  .TCP_TX_FULL        (tcp_tx_full),
+  .TCP_TX_WR          (tcp_tx_wr),
+  .TCP_TX_DATA        (tcp_tx_data)
 );
 
-assign  sitcpFifoRe = ~tcp_tx_full & ~sitcpFifoEmpty;
+////////////////////////////////////////////////////////////////////////////////
+//  TCP loopback FIFO
+// wire sitcpFifoEmpty, sitcpFifoRe;
+// assign tcp_rx_wc[15:11] = 5'b11111;
+
+// sitcp_fifo sitcp_fifo(
+//   .clk          (clk125_int),
+//   .srst         (~tcp_open),
+//   .data_count   (tcp_rx_wc[10:0]),
+//   .full         (),
+//   .wr_en        (tcp_rx_wr),
+//   .din          (tcp_rx_data[7:0]),
+//   .empty        (sitcpFifoEmpty),
+//   .rd_en        (sitcpFifoRe),
+//   .dout         (tcp_tx_data[7:0]),
+//   .valid        (tcp_tx_wr)
+// );
+
+// assign  sitcpFifoRe = ~tcp_tx_full & ~sitcpFifoEmpty;
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Register controll
@@ -641,7 +680,17 @@ RBCP_REG #(
   .MOSI_O       (),
   .MISO_I       (1'b0),
   .UART_RX      (1'b1),
-  .UART_TX      ()
+  .UART_TX      (),
+  .i_fpga_dna                   (64'b0),
+  .o_tcp_mode                   (tcp_mode),
+  .o_tcp_test_tx_rate           (tcp_test_tx_rate),
+  .o_tcp_test_num_of_data       (tcp_test_num_of_data),
+  .o_tcp_test_data_gen          (tcp_test_data_gen),
+  .o_tcp_test_word_len          (tcp_test_word_len),
+  .o_tcp_test_select_seq        (tcp_test_select_seq),
+  .o_tcp_test_seq_pattern       (tcp_test_seq_pattern),
+  .o_tcp_test_blk_size          (tcp_test_blk_size),
+  .o_tcp_test_ins_error_trigger (tcp_test_ins_error)
 );
 
 assign scl_i[0] = FPGA_SCL;

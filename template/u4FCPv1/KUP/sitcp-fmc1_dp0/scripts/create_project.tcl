@@ -35,6 +35,7 @@ set VERILOG_FILES "\
   SiTCP/SiTCP_XC7K_32K_BBT_V110.V \
   SiTCP/TIMER.v \
   SiTCP/gig_ethernet_pcs_pma_support.v \
+  SiTCP/TCP_TEST.v \
   wishbone/RBCP2WB.v \
   wishbone/wb_reg/reg_table.v \
   wishbone/wb_reg/rggen-verilog-rtl/rggen_rtl_macros.vh \
@@ -46,6 +47,7 @@ set VERILOG_FILES "\
   wishbone/wb_reg/rggen-verilog-rtl/rggen_adapter_common.v \
   wishbone/wb_reg/rggen-verilog-rtl/rggen_mux.v \
   wishbone/wb_reg/rggen-verilog-rtl/rggen_or_reducer.v \
+  wishbone/wb_reg/rggen-verilog-rtl/rggen_bit_field_w01trg.v \
   wishbone/wb_i2c/i2c_master_top.v \
   wishbone/wb_i2c/i2c_master_bit_ctrl.v \
   wishbone/wb_i2c/i2c_master_byte_ctrl.v \

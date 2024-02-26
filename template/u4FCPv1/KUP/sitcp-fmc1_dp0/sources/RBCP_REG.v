@@ -42,7 +42,18 @@ module RBCP_REG #(
   input   [SPI_NUM-1:0]   MISO_I,
   // UART
   input   [UART_NUM-1:0]  UART_RX,
-  output  [UART_NUM-1:0]  UART_TX
+  output  [UART_NUM-1:0]  UART_TX,
+  // Regs
+  input   [63:0]  i_fpga_dna,
+  output  [1 :0]  o_tcp_mode,
+  output  [7 :0]  o_tcp_test_tx_rate,
+  output  [63:0]  o_tcp_test_num_of_data,
+  output          o_tcp_test_data_gen,
+  output  [2 :0]  o_tcp_test_word_len,
+  output          o_tcp_test_select_seq,
+  output [31:0]   o_tcp_test_seq_pattern,
+  output [23:0]   o_tcp_test_blk_size,
+  output          o_tcp_test_ins_error_trigger
 );
 ////////////////////////////////////////////////////////////////////////////////
 // WishBone bus arbitrator
@@ -229,7 +240,17 @@ reg_table #(
   .o_wb_ack   (wb_reg_ack),
   .o_wb_err   (),
   .o_wb_rty   (),
-  .o_wb_stall ()
+  .o_wb_stall (),
+  .i_fpga_dna                   (i_fpga_dna),
+  .o_tcp_mode                   (o_tcp_mode),
+  .o_tcp_test_tx_rate           (o_tcp_test_tx_rate),
+  .o_tcp_test_num_of_data       (o_tcp_test_num_of_data),
+  .o_tcp_test_data_gen          (o_tcp_test_data_gen),
+  .o_tcp_test_word_len          (o_tcp_test_word_len),
+  .o_tcp_test_select_seq        (o_tcp_test_select_seq),
+  .o_tcp_test_seq_pattern       (o_tcp_test_seq_pattern),
+  .o_tcp_test_blk_size          (o_tcp_test_blk_size),
+  .o_tcp_test_ins_error_trigger (o_tcp_test_ins_error_trigger)
 );
 
 
@@ -365,7 +386,10 @@ if (USE_CHIPSCOPE == 1) begin
   assign probe0[34] = wb_cyc;
   assign probe0[35] = wb_ack;
 
-  assign probe0[63:36] = 0;
+  assign probe0[36] = o_tcp_test_ins_error_trigger;
+  assign probe0[37] = o_tcp_test_data_gen;
+
+  assign probe0[63:38] = 0;
 
 end
 endgenerate
