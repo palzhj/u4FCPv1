@@ -29,7 +29,7 @@ set SIM_TOPLEVEL top
 set VERILOG_FILES "\
   top.v \
   RESET.v \
-  MDIO_INIT.v \
+  TIMER.v \
   gig_ethernet_pcs_pma_support_gth.v \
   gig_ethernet_pcs_pma_support_gty.v \
   "
@@ -44,7 +44,7 @@ set WCFG_FILES ""
 
 set XCI_FILES "\
   ip/clk_wiz.xci \
-  ip/fifo10.xci \
+  ip/ila64.xci \
   ip/gig_ethernet_pcs_pma_gth.xci \
   ip/gig_ethernet_pcs_pma_gth_gt.xci\
   ip/gig_ethernet_pcs_pma_gty.xci \

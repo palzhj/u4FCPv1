@@ -17,10 +17,10 @@
 reset_runs [get_runs]
 set now [clock format [clock seconds] -format %Y%m%d%H]
 set_property generic [format "SYN_DATE=32'h%s" $now] [current_fileset]
-launch_runs impl_1 -to_step write_bitstream -jobs 8
+launch_runs impl_1 -to_step write_bitstream -jobs 16
 wait_on_runs [get_runs impl_1]
 file copy -force ../Projects/top/top.runs/impl_1/top.bit ../output/top.bit
-# file copy -force ../Projects/top/top.runs/impl_1/top.ltx ../output/top.ltx
+file copy -force ../Projects/top/top.runs/impl_1/top.ltx ../output/top.ltx
 write_cfgmem -format mcs -size 32 -interface SPIx4 -loadbit {up 0x00000000 "../output/top.bit"} -force -file "../output/top.mcs"
 
 # reset_runs [get_runs]

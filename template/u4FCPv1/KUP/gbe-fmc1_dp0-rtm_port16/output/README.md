@@ -1,10 +1,17 @@
+# Log
+
+- top20140218, internal 125MHz clock for GT
+
+- top20240619, internal 125MHz clock for GT, Use auto negotiation in pcs/pma
+
+
 # Output folder
 
-This folder serves as the output directory for various files, including bit, ltx, msc, and prm files. 
+This folder serves as the output directory for various files, including bit, ltx, msc, and prm files.
 
 - bit files, short for "binary files," are generated during the process of programming or configuring a field-programmable gate array (FPGA). These files contain the binary data that defines the configuration of the device.
 
-- ltx files are associated with the integrated logic analyzer for vivado online debugging. It contains test vectors or patterns used for testing and validating firmware during development. 
+- ltx files are associated with the integrated logic analyzer for vivado online debugging. It contains test vectors or patterns used for testing and validating firmware during development.
 
 - mcs files, refer to the Memory Configuration File,  are created by Vivado after the generation of the bitstream. It includes the necessary information to configure the FPGA device, such as the configuration data, device-specific settings, and any additional programming instructions. To program the flash memory using the MCS file, the file is typically loaded onto the flash memory using a flash programming tool or utility provided by the vivado hardware manager. This tool reads the MCS file and writes the configuration data into the flash memory, making it ready for automatic configuration during subsequent power cycles.
 

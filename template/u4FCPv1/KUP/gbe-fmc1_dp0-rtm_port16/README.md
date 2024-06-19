@@ -18,3 +18,7 @@ source ./run_implementation.tcl
 ```
 
 All files should appear in the output folder.
+
+# GT config
+Use auto negotiation
+Use 125MHz internal clock
