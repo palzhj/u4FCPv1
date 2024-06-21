@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MultiProjectsData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Version>1</Version>
-  <Timestamp>2020-12-14T09:21:19.8459705+08:00</Timestamp>
-  <Creator>Texas Instruments Fusion Digital Power Designer v7.3.1.0 [2020-05-06]</Creator>
+  <Timestamp>2024-06-21T14:00:33.6302586+08:00</Timestamp>
+  <Creator>Texas Instruments Fusion Digital Power Designer v7.10.1.0 [2023-10-27]</Creator>
   <Project_Info_List>
     <ProjectInfo>
       <ProjectFile />
       <ProjectData>
         <Version>1</Version>
-        <Timestamp>2020-12-14T09:21:19.9915888+08:00</Timestamp>
-        <Creator>Texas Instruments Fusion Digital Power Designer v7.3.1.0 [2020-05-06]</Creator>
+        <Timestamp>2024-06-21T14:00:33.7357687+08:00</Timestamp>
+        <Creator>Texas Instruments Fusion Digital Power Designer v7.10.1.0 [2023-10-27]</Creator>
         <Devices>
           <Device>
             <PartID>UCD90320</PartID>
@@ -18726,9 +18726,9 @@
                 <ID>IOUT_CAL_GAIN</ID>
                 <Code>56</Code>
                 <IDAndCode>IOUT_CAL_GAIN [0x38,Rail #17]</IDAndCode>
-                <ValueText>629.000000 mΩ</ValueText>
-                <ValueEncoded xsi:type="PMBusWord" Hex="0x0275" />
-                <ValueNumeric>629</ValueNumeric>
+                <ValueText>61.375000 mΩ</ValueText>
+                <ValueEncoded xsi:type="PMBusWord" Hex="0xE3D6" />
+                <ValueNumeric>61.375</ValueNumeric>
                 <ParameterType>Resistance</ParameterType>
                 <ParameterCategory>Calibration</ParameterCategory>
                 <Page>16</Page>
@@ -18752,9 +18752,9 @@
                 <ID>IOUT_OC_FAULT_LIMIT</ID>
                 <Code>70</Code>
                 <IDAndCode>IOUT_OC_FAULT_LIMIT [0x46,Rail #17]</IDAndCode>
-                <ValueText>4.000 A</ValueText>
-                <ValueEncoded xsi:type="PMBusWord" Hex="0xCA00" />
-                <ValueNumeric>4</ValueNumeric>
+                <ValueText>7.000 A</ValueText>
+                <ValueEncoded xsi:type="PMBusWord" Hex="0xCB80" />
+                <ValueNumeric>7</ValueNumeric>
                 <ParameterType>Current</ParameterType>
                 <ParameterCategory>Limits</ParameterCategory>
                 <Page>16</Page>
@@ -18765,9 +18765,9 @@
                 <ID>IOUT_OC_WARN_LIMIT</ID>
                 <Code>74</Code>
                 <IDAndCode>IOUT_OC_WARN_LIMIT [0x4A,Rail #17]</IDAndCode>
-                <ValueText>3.500 A</ValueText>
-                <ValueEncoded xsi:type="PMBusWord" Hex="0xC380" />
-                <ValueNumeric>3.5</ValueNumeric>
+                <ValueText>6.000 A</ValueText>
+                <ValueEncoded xsi:type="PMBusWord" Hex="0xCB00" />
+                <ValueNumeric>6</ValueNumeric>
                 <ParameterType>Current</ParameterType>
                 <ParameterCategory>Limits</ParameterCategory>
                 <Page>16</Page>
