@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MultiProjectsData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Version>1</Version>
-  <Timestamp>2024-06-07T09:23:05.4314049+08:00</Timestamp>
+  <Timestamp>2024-06-21T13:57:48.2906466+08:00</Timestamp>
   <Creator>Texas Instruments Fusion Digital Power Designer v7.10.1.0 [2023-10-27]</Creator>
   <Project_Info_List>
     <ProjectInfo>
       <ProjectFile />
       <ProjectData>
         <Version>1</Version>
-        <Timestamp>2024-06-07T09:23:05.6520556+08:00</Timestamp>
+        <Timestamp>2024-06-21T13:57:48.4004613+08:00</Timestamp>
         <Creator>Texas Instruments Fusion Digital Power Designer v7.10.1.0 [2023-10-27]</Creator>
         <Devices>
           <Device>
@@ -18752,9 +18752,9 @@
                 <ID>IOUT_OC_FAULT_LIMIT</ID>
                 <Code>70</Code>
                 <IDAndCode>IOUT_OC_FAULT_LIMIT [0x46,Rail #17]</IDAndCode>
-                <ValueText>6.000 A</ValueText>
-                <ValueEncoded xsi:type="PMBusWord" Hex="0xCB00" />
-                <ValueNumeric>6</ValueNumeric>
+                <ValueText>7.000 A</ValueText>
+                <ValueEncoded xsi:type="PMBusWord" Hex="0xCB80" />
+                <ValueNumeric>7</ValueNumeric>
                 <ParameterType>Current</ParameterType>
                 <ParameterCategory>Limits</ParameterCategory>
                 <Page>16</Page>
@@ -18765,9 +18765,9 @@
                 <ID>IOUT_OC_WARN_LIMIT</ID>
                 <Code>74</Code>
                 <IDAndCode>IOUT_OC_WARN_LIMIT [0x4A,Rail #17]</IDAndCode>
-                <ValueText>5.000 A</ValueText>
-                <ValueEncoded xsi:type="PMBusWord" Hex="0xCA80" />
-                <ValueNumeric>5</ValueNumeric>
+                <ValueText>6.000 A</ValueText>
+                <ValueEncoded xsi:type="PMBusWord" Hex="0xCB00" />
+                <ValueNumeric>6</ValueNumeric>
                 <ParameterType>Current</ParameterType>
                 <ParameterCategory>Limits</ParameterCategory>
                 <Page>16</Page>
