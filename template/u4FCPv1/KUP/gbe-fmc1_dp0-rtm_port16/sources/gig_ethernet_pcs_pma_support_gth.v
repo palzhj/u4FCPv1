@@ -88,13 +88,19 @@ module gig_ethernet_pcs_pma_support_gth(
   output       gmii_isolate,          // Tristate control to electrically isolate GMII.
   // Management: MDIO Interface
   //---------------------------
-  input        mdc,                   // Management Data Clock
-  input        mdio_i,                // Management Data In
-  output       mdio_o,                // Management Data Out
-  output       mdio_t,                // Management Data Tristate
-  input [4:0]  phyaddr,
+  // input        mdc,                   // Management Data Clock
+  // input        mdio_i,                // Management Data In
+  // output       mdio_o,                // Management Data Out
+  // output       mdio_t,                // Management Data Tristate
+  // input [4:0]  phyaddr,
   input [4:0]  configuration_vector,  // Alternative to MDIO interface.
-  input        configuration_valid,   // Validation signal for Config vector
+  // input        configuration_valid,   // Validation signal for Config vector
+
+  output       an_interrupt,          // Interrupt to processor to signal that Auto-Negotiation has completed
+  input [15:0] an_adv_config_vector,  // Alternate interface to program REG4 (AN ADV)
+  // input        an_adv_config_val,     // Validation signal for AN ADV
+  input        an_restart_config,     // Alternate signal to modify AN restart bit in REG0
+
   // General IO's
   //-------------
   output [15:0] status_vector,        // Core status.
@@ -196,13 +202,19 @@ gig_ethernet_pcs_pma_gth pcs_pma_gth_i(
   .gmii_isolate                         (gmii_isolate),
   // Management: MDIO Interface
   //---------------------------
-  .mdc                                  (mdc),
-  .mdio_i                               (mdio_i),
-  .mdio_o                               (mdio_o),
-  .mdio_t                               (mdio_t),
-  .phyaddr                              (phyaddr),
+  // .mdc                                  (mdc),
+  // .mdio_i                               (mdio_i),
+  // .mdio_o                               (mdio_o),
+  // .mdio_t                               (mdio_t),
+  // .phyaddr                              (phyaddr),
   .configuration_vector                 (configuration_vector),
-  .configuration_valid                  (configuration_valid),
+  // .configuration_valid                  (configuration_valid),
+
+  .an_interrupt                         (an_interrupt),
+  .an_adv_config_vector                 (an_adv_config_vector),
+  // .an_adv_config_val                    (an_adv_config_val),
+  .an_restart_config                    (an_restart_config),
+
   // General IO's
   //-------------
   .status_vector                        (status_vector),  // Core status.

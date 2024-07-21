@@ -21,6 +21,7 @@ module top #(
   output            RLED_B,
   output            GLED_B,
   output            BLED_B,
+  output  [3 : 0]   TESTPIN,
 // FMC0
   // input             FMC0_DP_M2C_P0,
   // input             FMC0_DP_M2C_N0,
@@ -31,6 +32,7 @@ module top #(
   input             FMC1_DP_M2C_N0,
   output            FMC1_DP_C2M_P0,
   output            FMC1_DP_C2M_N0,
+  input             FMC1_LA_N4,  // sfp_detect_b
 // RTM
   output            AMC2RTM_P16,
   output            AMC2RTM_N16,
@@ -95,13 +97,13 @@ wire          gmii_tx_er_a, gmii_tx_er_b;     // Transmit control signal from cl
 wire  [7 : 0] gmii_rx_d_a, gmii_rx_d_b;       // Received Data to client MAC.
 wire          gmii_rx_dv_a, gmii_rx_dv_b;     // Received control signal to client MAC.
 wire          gmii_rx_er_a, gmii_rx_er_b;     // Received control signal to client MAC.
-wire mdc, mdio, mdio_complete;
+// wire mdc, mdio, mdio_complete;
 
 //---------------------------------------------------------------------------
 // Instantiate GT Interface
 //---------------------------------------------------------------------------
 wire        userclk2_a;
-wire        eth_rst_done_a;
+wire        mmcm_locked_out_a, eth_rst_done_a, an_interrupt_a;
 wire [15:0] status_vector_a;
 gig_ethernet_pcs_pma_support_gth gig_ethernet_pcs_pma_gth_i(
   // Transceiver Interface
@@ -110,11 +112,11 @@ gig_ethernet_pcs_pma_support_gth gig_ethernet_pcs_pma_gth_i(
   .txn                    (FMC1_DP_C2M_N0),
   .rxp                    (FMC1_DP_M2C_P0),
   .rxn                    (FMC1_DP_M2C_N0),
-  .mmcm_locked_out        (),
-  .userclk_out            (),         // 62.5 MHz
+  .mmcm_locked_out        (mmcm_locked_out_a),
+  .userclk_out            (),           // 62.5 MHz
   .userclk2_out           (userclk2_a), // 125 MHz
-  .rxuserclk_out          (),         // 62.5 MHz
-  .rxuserclk2_out         (),         // 62.5 MHz
+  .rxuserclk_out          (),           // 62.5 MHz
+  .rxuserclk2_out         (),           // 62.5 MHz
   .independent_clock_bufg (clk40_int),
   .pma_reset_out          (),
   .resetdone              (eth_rst_done_a),
@@ -126,25 +128,21 @@ gig_ethernet_pcs_pma_support_gth gig_ethernet_pcs_pma_gth_i(
   .gmii_rx_dv             (gmii_rx_dv_a),
   .gmii_rx_er             (gmii_rx_er_a),
   .gmii_isolate           (),
-  // Management: MDIO Interface
-  .mdc                    (mdc),
-  .mdio_i                 (mdio),
-  .mdio_o                 (),
-  .mdio_t                 (),
-  .phyaddr                (PHY_ADDRESS),
+  // Management
   .configuration_vector   (5'b10000),
-  .configuration_valid    (1'b0),
-  // General IO's
+  .an_interrupt           (an_interrupt_a),
+  .an_adv_config_vector   (16'b0000000000100001),
+  .an_restart_config      (1'b0),
   .status_vector          (status_vector_a),
   .reset                  (rst),
-  .signal_detect          (1'b1)
+  .signal_detect          (~FMC1_LA_N4)
   );
 
 //---------------------------------------------------------------------------
 // Instantiate GT Interface
 //---------------------------------------------------------------------------
 wire        userclk2_b;
-wire        eth_rst_done_b;
+wire        mmcm_locked_out_b, eth_rst_done_b, an_interrupt_b;
 wire [15:0] status_vector_b;
 gig_ethernet_pcs_pma_support_gty gig_ethernet_pcs_pma_gty_i(
   // Transceiver Interface
@@ -153,11 +151,11 @@ gig_ethernet_pcs_pma_support_gty gig_ethernet_pcs_pma_gty_i(
   .txn                    (AMC2RTM_N16),
   .rxp                    (RTM2AMC_P16),
   .rxn                    (RTM2AMC_N16),
-  .mmcm_locked_out        (),
-  .userclk_out            (),         // 62.5 MHz
+  .mmcm_locked_out        (mmcm_locked_out_b),
+  .userclk_out            (),           // 62.5 MHz
   .userclk2_out           (userclk2_b), // 125 MHz
-  .rxuserclk_out          (),         // 62.5 MHz
-  .rxuserclk2_out         (),         // 62.5 MHz
+  .rxuserclk_out          (),           // 62.5 MHz
+  .rxuserclk2_out         (),           // 62.5 MHz
   .independent_clock_bufg (clk40_int),
   .pma_reset_out          (),
   .resetdone              (eth_rst_done_b),
@@ -169,70 +167,126 @@ gig_ethernet_pcs_pma_support_gty gig_ethernet_pcs_pma_gty_i(
   .gmii_rx_dv             (gmii_rx_dv_b),
   .gmii_rx_er             (gmii_rx_er_b),
   .gmii_isolate           (),
-  // Management: MDIO Interface
-  .mdc                    (mdc),
-  .mdio_i                 (mdio),
-  .mdio_o                 (),
-  .mdio_t                 (),
-  .phyaddr                (PHY_ADDRESS),
+  // Management
   .configuration_vector   (5'b10000),
-  .configuration_valid    (1'b0),
-  // General IO's
+  .an_interrupt           (an_interrupt_b),
+  .an_adv_config_vector   (16'b0000000000100001),
+  .an_restart_config      (1'b0),
   .status_vector          (status_vector_b),
   .reset                  (rst),
-  .signal_detect          (1'b1)
+  .signal_detect          (~RTM_PS_B)
   );
 
-mdio_init mdio_init_i(
-  .clk                    (usrclk),         // in : system clock (125M)
-  .rst                    (~(eth_rst_done_a & eth_rst_done_b)),  // in : system reset
-  .phyaddr                (PHY_ADDRESS),    // in : [4:0] PHY address
-  .mdc                    (mdc),       // out: clock (1/128 system clock)
-  .mdio_out               (mdio),      // out: connect this to "PCS/PMA + RocketIO" module .mdio?_i()
-  .complete               (mdio_complete)   // out: initializing sequence has completed (active H)
-);
+// reg gmii_rx_dv_a_r;
+// always @(posedge userclk2_a) gmii_rx_dv_a_r <= gmii_rx_dv_a;
+// wire wr_en_a = (gmii_rx_dv_a_r & ~gmii_rx_dv_a) | gmii_rx_dv_a;
+// wire empty_a;
 
-reg gmii_rx_dv_a_r;
-always @(posedge userclk2_a) gmii_rx_dv_a_r <= gmii_rx_dv_a;
-wire wr_en_a = gmii_rx_dv_a_r | gmii_rx_dv_a;
-wire empty_a;
+// fifo10 fifo10_a(
+//   .rst        (~eth_rst_done_a),
+//   .wr_clk     (userclk2_a),
+//   .wr_en      (wr_en_a),
+//   .din        ({gmii_rx_er_a, gmii_rx_dv_a, gmii_rx_d_a}),
+//   .full       (),
+//   .rd_clk     (userclk2_b),
+//   .rd_en      (~empty_a),
+//   .dout       ({gmii_tx_er_b, gmii_tx_en_b, gmii_tx_d_b}),
+//   .empty      (empty_a),
+//   .wr_rst_busy(),
+//   .rd_rst_busy()
+// );
 
-fifo10 fifo10_a(
-  .rst        (rst),
-  .wr_clk     (userclk2_a),
-  .wr_en      (wr_en_a),
-  .din        ({gmii_rx_er_a, gmii_rx_dv_a, gmii_rx_d_a}),
-  .full       (),
-  .rd_clk     (userclk2_b),
-  .rd_en      (~empty_a),
-  .dout       ({gmii_tx_er_b, gmii_tx_en_b, gmii_tx_d_b}),
-  .empty      (empty_a),
-  .wr_rst_busy(),
-  .rd_rst_busy()
-);
+// reg gmii_rx_dv_b_r;
+// always @(posedge userclk2_b) gmii_rx_dv_b_r <= gmii_rx_dv_b;
+// wire wr_en_b = (gmii_rx_dv_b_r & ~gmii_rx_dv_b) | gmii_rx_dv_b;
+// wire empty_b;
 
-reg gmii_rx_dv_b_r;
-always @(posedge userclk2_b) gmii_rx_dv_b_r <= gmii_rx_dv_b;
-wire wr_en_b = gmii_rx_dv_b_r | gmii_rx_dv_b;
-wire empty_b;
+// fifo10 fifo10_b(
+//   .rst        (~eth_rst_done_b),
+//   .wr_clk     (userclk2_b),
+//   .wr_en      (wr_en_b),
+//   .din        ({gmii_rx_er_b, gmii_rx_dv_b, gmii_rx_d_b}),
+//   .full       (),
+//   .rd_clk     (userclk2_a),
+//   .rd_en      (~empty_b),
+//   .dout       ({gmii_tx_er_a, gmii_tx_en_a, gmii_tx_d_a}),
+//   .empty      (empty_b),
+//   .wr_rst_busy(),
+//   .rd_rst_busy()
+// );
 
-fifo10 fifo10_b(
-  .rst        (rst),
-  .wr_clk     (userclk2_b),
-  .wr_en      (wr_en_b),
-  .din        ({gmii_rx_er_b, gmii_rx_dv_b, gmii_rx_d_b}),
-  .full       (),
-  .rd_clk     (userclk2_a),
-  .rd_en      (~empty_b),
-  .dout       ({gmii_tx_er_a, gmii_tx_en_a, gmii_tx_d_a}),
-  .empty      (empty_b),
-  .wr_rst_busy(),
-  .rd_rst_busy()
-);
+assign gmii_tx_er_a = gmii_rx_er_b;
+assign gmii_tx_en_a = gmii_rx_dv_b;
+assign gmii_tx_d_a = gmii_rx_d_b;
+
+assign gmii_tx_er_b = gmii_rx_er_a;
+assign gmii_tx_en_b = gmii_rx_dv_a;
+assign gmii_tx_d_b = gmii_rx_d_a;
 
 //////////////////////////////////////////////////////////////////////////////
-assign BLED_B = eth_rst_done_a;
-assign GLED_B = eth_rst_done_b;
-assign RLED_B = mdio_complete;
+// Debug
+wire tim_1s;
+
+TIMER #(
+  .CLK_FREQ   (8'd125)
+)TIMER(
+// System
+  .CLK        (usrclk), // in: System clock
+  .RST        (rst),        // in: System reset
+// Intrrupts
+  .TIM_1US    (),       // out: 1 us interval
+  .TIM_10US   (),       // out: 10 us interval
+  .TIM_100US  (),       // out: 100 us interval
+  .TIM_1MS    (),       // out: 1 ms interval
+  .TIM_10MS   (),       // out: 10 ms interval
+  .TIM_100MS  (),       // out: 100 ms interval
+  .TIM_1S     (tim_1s), // out: 1 s interval
+  .TIM_1M     ()        // out: 1 min interval
+);
+
+reg ledr;
+always @(posedge usrclk)
+  if(tim_1s) ledr <= ~ledr;
+
+assign BLED_B = ledr;
+assign GLED_B = mmcm_locked_out_b & eth_rst_done_b;
+assign RLED_B = mmcm_locked_out_a & eth_rst_done_a;
+
+assign TESTPIN[0] = userclk2_a;
+assign TESTPIN[1] = userclk2_b;
+assign TESTPIN[2] = 1'b0;
+assign TESTPIN[3] = 1'b0;
+
+generate
+if (USE_CHIPSCOPE == 1) begin
+  wire [63:0] probe0;
+  ila64 ila64 (
+      .clk(usrclk),
+      .probe0(probe0)
+  );
+  assign probe0[7 : 0] = gmii_rx_d_a[7:0];
+  assign probe0[8]     = gmii_rx_dv_a;
+  assign probe0[9]     = gmii_rx_er_a;
+  assign probe0[10]    = 0;
+  assign probe0[11]    = mmcm_locked_out_a;
+  assign probe0[12]    = eth_rst_done_a;
+  assign probe0[13]    = an_interrupt_a;
+  assign probe0[14]    = 0;
+  assign probe0[15]    = FMC1_LA_N4;
+  assign probe0[31:16] = status_vector_a[15:0];
+
+  assign probe0[39:32] = gmii_rx_d_b[7:0];
+  assign probe0[40]    = gmii_rx_dv_b;
+  assign probe0[41]    = gmii_rx_er_b;
+  assign probe0[42]    = 0;
+  assign probe0[43]    = mmcm_locked_out_b;
+  assign probe0[44]    = eth_rst_done_b;
+  assign probe0[45]    = an_interrupt_b;
+  assign probe0[46]    = 0;
+  assign probe0[47]    = RTM_PS_B;
+  assign probe0[63:48] = status_vector_b[15:0];
+
+end
+endgenerate
 
 endmodule
