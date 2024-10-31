@@ -16,12 +16,17 @@ import sysmon
 import reg
 import spi
 import i2c
+sys.path.insert(0, directory_path+"/board")
+import i2c_switch
+import si5345
+import eeprom
 
 # import interface
 
 TEST_REG    = 1
-TEST_SYSMON = 0
-TEST_TCP_TX = 1
+TEST_SYSMON = 1
+TEST_TCP_TX = 0
+TEST_CLK    = 1
 
 #################################################################
 # register test
@@ -146,3 +151,14 @@ if TEST_TCP_TX:
     print("Package error count: %d"%(package_error_cnt))
     if check_data_fast|check_one_by_one:
         print("Data error count: %d"%(data_error_cnt/2))
+
+#################################################################
+# i2c clk test
+if TEST_CLK:
+    i2c_switch = i2c_switch.i2c_switch()
+    i2c_switch.enable_clk()
+    i2c_switch.get_status()
+
+    # si5345 = si5345.si5345()
+    # si5345.load_config()
+    # print("PLL initialized")
