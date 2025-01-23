@@ -26,7 +26,7 @@ import eeprom
 TEST_REG    = 1
 TEST_SYSMON = 1
 TEST_TCP_TX = 0
-TEST_CLK    = 1
+TEST_CLK    = 0
 
 #################################################################
 # register test
@@ -51,7 +51,7 @@ if TEST_TCP_TX:
     reg.set_sitcp_retransmission_time(250)
 
     test_duration = 10 # seconds
-    tx_rate = 10 # unit: 100 Mbps
+    tx_rate = 100 # unit: 100 Mbps
     clear_buffer = 0
     check_data_fast = 1 # Note that it's fast but it check the package head and tail only
     check_one_by_one = 0 # Note that it is very slow, the max speed is about 150Mbps
