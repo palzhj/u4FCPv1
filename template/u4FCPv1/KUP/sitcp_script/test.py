@@ -24,8 +24,8 @@ import eeprom
 # import interface
 
 TEST_REG    = 1
-TEST_SYSMON = 1
-TEST_TCP_TX = 0
+TEST_SYSMON = 0
+TEST_TCP_TX = 1
 TEST_CLK    = 0
 
 #################################################################
@@ -53,7 +53,7 @@ if TEST_TCP_TX:
     test_duration = 10 # seconds
     tx_rate = 100 # unit: 100 Mbps
     clear_buffer = 0
-    check_data_fast = 1 # Note that it's fast but it check the package head and tail only
+    check_data_fast = 0 # Note that it's fast but it check the package head and tail only
     check_one_by_one = 0 # Note that it is very slow, the max speed is about 150Mbps
     print_error = 1
 
